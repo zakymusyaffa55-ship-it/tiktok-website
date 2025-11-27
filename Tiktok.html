@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>TikTok Downloader</title>
+</head>
+<body>
+  <h2>TikTok Downloader Termudah</h2>
+  <input id="link" type="text" placeholder="Tempel link TikTok" style="width: 300px;">
+  <button onclick="download()">Download</button>
+
+  <div id="hasil" style="margin-top:20px;"></div>
+
+  <script>
+    async function download() {
+      const url = document.getElementById("link").value;
+      if (!url) return alert("Masukkan link dulu");
+
+      // PAKAI API GRATIS milik pihak ketiga (tanpa bikin server)
+      const api = `https://tikwm.com/api/?url=${encodeURIComponent(url)}`;
+
+      const resp = await fetch(api);
+      const data = await resp.json();
+
+      if (!data.data) {
+        document.getElementById("hasil").innerHTML = "Gagal ambil video.";
+        return;
+      }
+
+      const link = data.data.play;
+      document.getElementById("hasil").innerHTML = `
+        <a href="${link}" download target="_blank">Download Video</a>
+      `;
+    }
+  </script>
+</body>
+</html>
